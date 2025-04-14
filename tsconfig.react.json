@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true,
+    "types": ["vite/client"],
+    "noEmit": true,
+    "isolatedModules": true,
+    "paths": {
+      "@sbp/ui": ["../../packages/ui/src"]
+    }
+  }
+}
