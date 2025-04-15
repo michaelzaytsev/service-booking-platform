@@ -1,11 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@sbp/ui": ["../../packages/ui/src"],
-      "@sbp/types": ["../../packages/types/src"]
-    }
-  },
+  "extends": "../../tsconfig.react.json",
   "include": ["src"]
 }

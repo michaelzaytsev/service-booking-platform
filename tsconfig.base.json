@@ -10,7 +10,8 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@sbp/types": ["packages/types/src"]
+      "@sbp/types": ["packages/types/src"],
+      "@sbp/run": ["packages/run/src"]
     },
   },
   "exclude": ["node_modules"],

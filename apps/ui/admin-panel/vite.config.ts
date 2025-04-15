@@ -1,17 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { env, viteResolveAlias } from '@sbp/run';
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      '@ui': path.resolve(__dirname, '../../packages/ui/src'),
-      '@types': path.resolve(__dirname, '../../packages/types/src'),
-    },
+    alias: viteResolveAlias,
   },
   build: {
     outDir: 'dist',
     sourcemap: true,
+  },
+  server: {
+    port: Number(env.ADMIN_PORT),
   },
 });

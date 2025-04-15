@@ -9,7 +9,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "paths": {
-      "@sbp/ui": ["../../packages/ui/src"]
+      "@sbp/ui": ["packages/ui/src"]
     }
   }
 }
