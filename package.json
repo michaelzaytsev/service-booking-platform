@@ -9,13 +9,17 @@
     "lint": "turbo run lint",
     "format": "prettier --write .",
     "build:types": "pnpm --filter @sbp/types build",
-    "dev:api": "cross-env pnpm --filter api start:dev",
+    "dev:api": "cross-env pnpm --filter api dev",
     "dev:admin": "cross-env pnpm --filter admin-panel dev",
     "dev:org": "cross-env pnpm --filter org-dashboard dev",
     "dev:landing": "cross-env pnpm --filter landing dev",
     "dev:widget": "cross-env pnpm --filter widget dev",
     "dev:ui": "concurrently \"pnpm dev:admin\" \"pnpm dev:org\" \"pnpm dev:landing\" \"pnpm dev:widget\"",
-    "dev:all": "concurrently \"pnpm dev:api\" \"pnpm dev:ui\""
+    "dev:all": "concurrently \"pnpm dev:api\" \"pnpm dev:ui\"",
+    "infra:watch": "docker compose -f infra/docker-compose.yml --env-file .env up",
+    "infra:up": "docker compose -f infra/docker-compose.yml --env-file .env up -d",
+    "infra:down": "docker compose -f infra/docker-compose.yml --env-file .env down",
+    "prisma:generate": "dotenv -e .env -- pnpm --filter prisma generate"
   },
   "engines": {
     "node": ">=18"
@@ -26,6 +30,7 @@
     "concurrently": "9.1.2",
     "cross-env": "7.0.3",
     "dotenv": "16.5.0",
+    "dotenv-cli": "8.0.0",
     "dotenv-expand": "12.0.1",
     "eslint": "9.24.0",
     "eslint-config-prettier": "10.1.2",
@@ -36,6 +41,6 @@
   "dependencies": {
     "@sbp/types": "workspace:*",
     "@sbp/ui": "workspace:*",
-    "@sbp/run": "workspace:*"
+    "@sbp/prisma": "workspace:*"
   }
 }
