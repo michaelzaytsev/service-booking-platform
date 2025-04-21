@@ -1,0 +1,24 @@
+{
+  "name": "@sbp/env",
+  "private": true,
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "bin": {
+    "build-env": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "dev": "ts-node src/cli.ts",
+    "generate": "ts-node src/build.ts"
+  },
+  "dependencies": {
+    "dotenv": "16.5.0",
+    "dotenv-expand": "12.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "typescript": "5.8.3"
+  }
+}
