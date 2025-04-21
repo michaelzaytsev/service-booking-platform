@@ -1,10 +1,9 @@
 import { Injectable, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { RegisterDto, RefreshDto, LoginDto } from './dto';
+import { RegisterDto } from './dto';
 import { UserService } from '../user/user.service';
 import { Prisma } from '@sbp/prisma';
-import { User } from '@sbp/types';
 
 @Injectable()
 export class AuthService {

@@ -1,16 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
-import { AppModule } from './app.module';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
-import path from 'path';
+// prettier-ignore
+import './env';
 
-dotenvExpand.expand(
-  dotenv.config({
-    path: path.resolve(__dirname, '../../../.env'),
-  }),
-);
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const isProd = process.env.NODE_ENV === 'production';
