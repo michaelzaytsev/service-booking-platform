@@ -4,9 +4,6 @@ importers:
 
   .:
     dependencies:
-      '@sbp/env':
-        specifier: workspace:*
-        version: link:packages/env
       '@sbp/prisma':
         specifier: workspace:*
         version: link:packages/prisma
@@ -32,12 +29,6 @@ importers:
       dotenv:
         specifier: 16.5.0
         version: 16.5.0
-      dotenv-cli:
-        specifier: 8.0.0
-        version: 8.0.0
-      dotenv-expand:
-        specifier: 12.0.1
-        version: 12.0.1
       eslint:
         specifier: 9.24.0
         version: 9.24.0
@@ -86,9 +77,9 @@ importers:
       class-validator:
         specifier: 0.14.1
         version: 0.14.1
-      dotenv:
-        specifier: 16.5.0
-        version: 16.5.0
+      dotenv-flow:
+        specifier: 4.1.0
+        version: 4.1.0
       helmet:
         specifier: 8.1.0
         version: 8.1.0
@@ -141,9 +132,9 @@ importers:
 
   apps/ui/admin-panel:
     dependencies:
-      dotenv:
-        specifier: 16.5.0
-        version: 16.5.0
+      dotenv-flow:
+        specifier: 4.1.0
+        version: 4.1.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -172,9 +163,9 @@ importers:
 
   apps/ui/landing:
     dependencies:
-      dotenv:
-        specifier: 16.5.0
-        version: 16.5.0
+      dotenv-flow:
+        specifier: 4.1.0
+        version: 4.1.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -203,9 +194,9 @@ importers:
 
   apps/ui/org-dashboard:
     dependencies:
-      dotenv:
-        specifier: 16.5.0
-        version: 16.5.0
+      dotenv-flow:
+        specifier: 4.1.0
+        version: 4.1.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -234,9 +225,9 @@ importers:
 
   apps/ui/widget:
     dependencies:
-      dotenv:
-        specifier: 16.5.0
-        version: 16.5.0
+      dotenv-flow:
+        specifier: 4.1.0
+        version: 4.1.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -2571,31 +2562,16 @@ packages:
     engines: {node: '>=0.3.1'}
     dev: true
 
-  /dotenv-cli@8.0.0:
-    resolution: {integrity: sha512-aLqYbK7xKOiTMIRf1lDPbI+Y+Ip/wo5k3eyp6ePysVaSqbyxjyK3dK35BTxG+rmd7djf5q2UPs4noPNH+cj0Qw==}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.6
-      dotenv: 16.5.0
-      dotenv-expand: 10.0.0
-      minimist: 1.2.8
-    dev: true
-
-  /dotenv-expand@10.0.0:
-    resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
-    engines: {node: '>=12'}
-    dev: true
-
-  /dotenv-expand@12.0.1:
-    resolution: {integrity: sha512-LaKRbou8gt0RNID/9RoI+J2rvXsBRPMV7p+ElHlPhcSARbCPDYcYG2s1TIzAfWv4YSgyY5taidWzzs31lNV3yQ==}
-    engines: {node: '>=12'}
-    dependencies:
-      dotenv: 16.5.0
-    dev: true
-
   /dotenv-expand@12.0.2:
     resolution: {integrity: sha512-lXpXz2ZE1cea1gL4sz2Ipj8y4PiVjytYr3Ij0SWoms1PGxIv7m2CRKuRuCRtHdVuvM/hNJPMxt5PbhboNC4dPQ==}
     engines: {node: '>=12'}
+    dependencies:
+      dotenv: 16.5.0
+    dev: false
+
+  /dotenv-flow@4.1.0:
+    resolution: {integrity: sha512-0cwP9jpQBQfyHwvE0cRhraZMkdV45TQedA8AAUZMsFzvmLcQyc1HPv+oX0OOYwLFjIlvgVepQ+WuQHbqDaHJZg==}
+    engines: {node: '>= 12.0.0'}
     dependencies:
       dotenv: 16.5.0
     dev: false

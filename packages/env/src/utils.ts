@@ -9,12 +9,7 @@ export function loadYamlSync(yamlPath: string) {
   return YAML.parse(file);
 }
 
-export function loadEnvSync(basePath: string) {
-  const isDev = (process.env.NODE_ENV || 'development') === 'development';
-  const envPaths = [
-    ...(isDev ? [path.resolve(basePath, '.env')] : []),
-    path.resolve(basePath, `.env.${process.env.NODE_ENV}`),
-  ];
+export function loadEnvSync(envPaths: string[]) {
   let env: Record<string, string> = {};
   let localEnv: Record<string, string> = {};
 

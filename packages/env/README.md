@@ -32,30 +32,20 @@ pnpm sbp:env
 To run in dev mode with TypeScript:
 
 ```bash
-pnpm --filter @sbp/env dev --config=env.spread.yaml
+pnpm --filter @sbp/env dev
 ```
 
 To build and run the compiled version:
 
 ```bash
-pnpm --filter @sbp/env build --config=env.spread.yaml
-pnpm --filter @sbp/env run --config=env.spread.yaml
-```
-
-```txt
-pnpm --filter @sbp/env [dev|build|start]
-  --config              A YAML file which contains configuration of how to validate the variables and where to put those.
-                        The file has to be in the directory of the main `.env` file.
-  --root-dir  optional  A directory of the config file depending on the directory of the @sbp/env package.
-                        This option is `./` by default.
-                        Use it if you customize the package to make the path connection between your apps in your monorepo.
-                        Think about the parameter as about your answer for a question of the package to have a look at the directory where you keep your configuration files: the YAML config file and basic .env ones.
+pnpm --filter @sbp/env build
+pnpm --filter @sbp/env run:spread
 ```
 
 ### 🗝️ Schema
 
 ```bash
-pnpm --filter @sbp/env [dev|build|start] [...opts]
+pnpm --filter @sbp/env [build|run:spread|dev:spread] [...opts]
 ```
 
 ### 🛠️ Options
@@ -77,15 +67,17 @@ import 'dotenv/config';
 No manual configuration or duplication required.
 
 ## ✅ Example workflow
-1. You define all available environment variables in the root `.env`
+1. You define all available environment variables in the root `.env` or `.env.${NODE_ENV}`
 2. You declare app paths and required env keys for all the apps in the root-level `env.spread.yaml`
 3. Run `pnpm sbp:env`
-4. It filters `.env` by required keys, validates presence, and generates `.env` in the target app
+4. It filters `.env` by required keys, validates presence, and generates `.env.${NODE_ENV}` in the target app
 
-## 🧠 Pro tip
+## 🧠 Pro tips
 
 Use `.env.local`, `.env.development.local`, etc. for overrides.
 This tool respects standard env merging via `dotenv-expand`.
+
+Place a templated variable which depends on local ones at the end of the `.env.local` or `.env.${NODE_ENV}.local` file.
 
 ---
 

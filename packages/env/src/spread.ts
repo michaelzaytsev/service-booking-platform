@@ -5,6 +5,7 @@ import { loadConfigSync } from './config';
 import { filterEnv, loadEnvSync, sortEnv, validateEnv } from './utils';
 
 const basePath = process.env.INIT_CWD!;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const args = minimist(process.argv.slice(2));
 const configPath = args.config
@@ -18,8 +19,11 @@ if (!fs.existsSync(configPath)) {
 }
 
 const config = loadConfigSync(configPath);
-const { env, localEnv } = loadEnvSync(basePath);
-
+const { env, localEnv } = loadEnvSync([
+  ...(NODE_ENV === 'development' ? [path.resolve(basePath, '.env')] : []),
+  path.resolve(basePath, `.env.${NODE_ENV}`),
+]);
+console.log(env, localEnv);
 Object.entries(config.apps).forEach(([app, props]) => {
   const filtered = filterEnv({ ...env, ...localEnv }, [...(props.required || []), ...(props.optional || [])]);
   const sorted = sortEnv(filtered);
@@ -31,12 +35,12 @@ Object.entries(config.apps).forEach(([app, props]) => {
     }
   }
 
-  const envFilename = path.resolve(basePath, props.path, '.env');
+  const envFilename = path.resolve(basePath, props.path, `.env.${NODE_ENV}`);
   fs.writeFileSync(
     envFilename,
     Object.entries(sorted)
       .map(([k, v]) => `${k}=${v}`)
       .join('\n'),
   );
-  console.log(`✅  Wrote .env for ${app} to ${envFilename}`);
+  console.log(`✅  Wrote .env.${NODE_ENV} for ${app} to ${envFilename}`);
 });

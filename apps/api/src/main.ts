@@ -1,5 +1,5 @@
 // prettier-ignore
-import 'dotenv/config';
+import 'dotenv-flow/config';
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
