@@ -2,26 +2,39 @@ import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 import fs from 'fs';
 import path from 'path';
+import YAML from 'yaml';
 
-export function loadMergedEnv(basePath: string) {
-  const envPaths = ['.env', '.env.local', `.env.${process.env.NODE_ENV}`, `.env.${process.env.NODE_ENV}.local`].map(
-    file => path.resolve(basePath, file),
-  );
+export function loadYamlSync(yamlPath: string) {
+  const file = fs.readFileSync(path.resolve(yamlPath), 'utf8');
+  return YAML.parse(file);
+}
 
-  let merged: Record<string, string> = {};
+export function loadEnvSync(basePath: string) {
+  const isDev = (process.env.NODE_ENV || 'development') === 'development';
+  const envPaths = [
+    ...(isDev ? [path.resolve(basePath, '.env')] : []),
+    path.resolve(basePath, `.env.${process.env.NODE_ENV}`),
+  ];
+  let env: Record<string, string> = {};
+  let localEnv: Record<string, string> = {};
 
-  for (const file of envPaths) {
-    if (fs.existsSync(file)) {
-      const env = dotenvExpand.expand(dotenv.config({ path: file })).parsed || {};
-      merged = { ...merged, ...env };
+  for (const envPath of envPaths) {
+    if (fs.existsSync(envPath)) {
+      env = { ...env, ...(dotenvExpand.expand(dotenv.config({ path: envPath })).parsed || {}) };
+    }
+    const localEnvPath = `${envPath}.local`;
+    if (fs.existsSync(localEnvPath)) {
+      localEnv = { ...localEnv, ...(dotenvExpand.expand(dotenv.config({ path: localEnvPath })).parsed || {}) };
     }
   }
 
-  return merged;
+  return { env, localEnv };
 }
 
 export function filterEnv(env: Record<string, string>, keys: string[]) {
-  return Object.fromEntries(keys.map(key => [key, env[key]]).filter(([_, v]) => v !== undefined));
+  return Object.fromEntries<string>(
+    keys.map(key => [key, env[key]]).filter(([_, v]) => v !== undefined) as Iterable<[string, string]>,
+  );
 }
 
 export function sortEnv(env: Record<string, string>): Record<string, string> {
@@ -30,19 +43,4 @@ export function sortEnv(env: Record<string, string>): Record<string, string> {
 
 export function validateEnv(env: Record<string, string>, requiredKeys: string[]): string[] {
   return requiredKeys.filter(key => !env[key]);
-}
-
-export function generateExample(env: Record<string, string>): string {
-  return Object.entries(env)
-    .map(([key, value]) => `${key}=${value === '' ? 'example' : value}`)
-    .join('\n');
-}
-
-export function writeEnvFile(app: string, env: Record<string, string>) {
-  const lines = Object.entries(env).map(([key, value]) => `${key}=${value}`);
-  const content = lines.join('\n') + '\n';
-  const targetPath = path.resolve(__dirname, `../../../apps/${app}/.env`);
-
-  fs.writeFileSync(targetPath, content);
-  console.log(`✅ Wrote .env for ${app} to ${targetPath}`);
 }
