@@ -22,7 +22,7 @@
     "@sbp/types": "workspace:^",
     "bcrypt": "5.1.1",
     "class-validator": "0.14.1",
-    "dotenv": "16.5.0",
+    "dotenv-flow": "4.1.0",
     "helmet": "8.1.0",
     "passport": "0.7.0",
     "passport-jwt": "4.0.1",

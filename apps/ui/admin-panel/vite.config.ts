@@ -1,5 +1,5 @@
 // prettier-ignore
-import 'dotenv/config';
+import 'dotenv-flow/config';
 
 import react from '@vitejs/plugin-react';
 import path from 'path';

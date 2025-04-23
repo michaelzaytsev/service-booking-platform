@@ -8,13 +8,14 @@
     "format": "prettier --write .",
     "build": "turbo run build",
     "build:types": "pnpm --filter @sbp/types build",
+    "env:dev": "cross-env NODE_ENV=development pnpm --filter @sbp/env dev:spread",
+    "env:tst": "cross-env NODE_ENV=test pnpm --filter @sbp/env dev:spread",
     "dev": "turbo run dev",
-    "dev:env": "pnpm --filter @sbp/env dev:spread",
-    "dev:api": "cross-env pnpm --filter api dev",
-    "dev:admin": "cross-env pnpm --filter admin-panel dev",
-    "dev:org": "cross-env pnpm --filter org-dashboard dev",
-    "dev:landing": "cross-env pnpm --filter landing dev",
-    "dev:widget": "cross-env pnpm --filter widget dev",
+    "dev:api": "cross-env NODE_ENV=development pnpm --filter api dev",
+    "dev:admin": "cross-env NODE_ENV=development pnpm --filter admin-panel dev",
+    "dev:org": "cross-env NODE_ENV=development pnpm --filter org-dashboard dev",
+    "dev:landing": "cross-env NODE_ENV=development pnpm --filter landing dev",
+    "dev:widget": "cross-env NODE_ENV=development pnpm --filter widget dev",
     "dev:ui": "concurrently \"pnpm dev:admin\" \"pnpm dev:org\" \"pnpm dev:landing\" \"pnpm dev:widget\"",
     "dev:all": "concurrently \"pnpm dev:api\" \"pnpm dev:ui\"",
     "dev:merge-env": "dotenv -e .env -e .env.local",
@@ -33,8 +34,6 @@
     "concurrently": "9.1.2",
     "cross-env": "7.0.3",
     "dotenv": "16.5.0",
-    "dotenv-cli": "8.0.0",
-    "dotenv-expand": "12.0.1",
     "eslint": "9.24.0",
     "eslint-config-prettier": "10.1.2",
     "eslint-plugin-prettier": "5.2.6",
@@ -45,7 +44,6 @@
   "dependencies": {
     "@sbp/types": "workspace:*",
     "@sbp/ui": "workspace:*",
-    "@sbp/prisma": "workspace:*",
-    "@sbp/env": "workspace:*"
+    "@sbp/prisma": "workspace:*"
   }
 }
