@@ -3,5 +3,6 @@ dist
 tsconfig.tsbuildinfo
 .env.local
 .env.*.local
+/apps/**/.env
 .idea
 packages/prisma/client

@@ -1,14 +1,9 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
-import path from 'path';
+// prettier-ignore
+import 'dotenv/config';
 
-dotenvExpand.expand(
-  dotenv.config({
-    path: path.resolve(__dirname, '../../../.env'),
-  }),
-);
+import react from '@vitejs/plugin-react';
+import path from 'path';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],

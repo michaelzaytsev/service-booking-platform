@@ -4,11 +4,12 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "prettier --write .",
+    "build": "turbo run build",
     "build:types": "pnpm --filter @sbp/types build",
+    "dev": "turbo run dev",
+    "dev:env": "pnpm --filter @sbp/env dev:spread",
     "dev:api": "cross-env pnpm --filter api dev",
     "dev:admin": "cross-env pnpm --filter admin-panel dev",
     "dev:org": "cross-env pnpm --filter org-dashboard dev",
@@ -16,10 +17,12 @@
     "dev:widget": "cross-env pnpm --filter widget dev",
     "dev:ui": "concurrently \"pnpm dev:admin\" \"pnpm dev:org\" \"pnpm dev:landing\" \"pnpm dev:widget\"",
     "dev:all": "concurrently \"pnpm dev:api\" \"pnpm dev:ui\"",
-    "infra:watch": "docker compose -f infra/docker-compose.yml --env-file .env up",
-    "infra:up": "docker compose -f infra/docker-compose.yml --env-file .env up -d",
-    "infra:down": "docker compose -f infra/docker-compose.yml --env-file .env down",
-    "prisma:generate": "dotenv -e .env -- pnpm --filter prisma generate"
+    "dev:merge-env": "dotenv -e .env -e .env.local",
+    "dev:infra:watch": "pnpm dev:merge-env -- docker compose -f infra/docker-compose.yml --env-file .env up",
+    "dev:infra:up": "pnpm dev:merge-env -- docker compose -f infra/docker-compose.yml up -d",
+    "dev:infra:down": "pnpm dev:merge-env -- docker compose -f infra/docker-compose.yml --env-file .env down",
+    "prisma:generate": "pnpm dev:merge-env -- pnpm --filter prisma generate",
+    "e2e:api": "cross-env dotenv -e .env.test -e .env.test.local -- jest --config=jest.config.ts --runInBand"
   },
   "engines": {
     "node": ">=18"
@@ -36,11 +39,13 @@
     "eslint-config-prettier": "10.1.2",
     "eslint-plugin-prettier": "5.2.6",
     "prettier": "3.5.3",
+    "prettier-plugin-organize-imports": "4.1.0",
     "turbo": "2.5.0"
   },
   "dependencies": {
     "@sbp/types": "workspace:*",
     "@sbp/ui": "workspace:*",
-    "@sbp/prisma": "workspace:*"
+    "@sbp/prisma": "workspace:*",
+    "@sbp/env": "workspace:*"
   }
 }
