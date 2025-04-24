@@ -23,7 +23,7 @@ const { env, localEnv } = loadEnvSync([
   ...(NODE_ENV === 'development' ? [path.resolve(basePath, '.env')] : []),
   path.resolve(basePath, `.env.${NODE_ENV}`),
 ]);
-console.log(env, localEnv);
+
 Object.entries(config.apps).forEach(([app, props]) => {
   const filtered = filterEnv({ ...env, ...localEnv }, [...(props.required || []), ...(props.optional || [])]);
   const sorted = sortEnv(filtered);
