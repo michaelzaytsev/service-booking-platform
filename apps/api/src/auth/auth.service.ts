@@ -1,9 +1,9 @@
-import { Injectable, ForbiddenException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
-import { RegisterDto } from './dto';
-import { UserService } from '../user/user.service';
 import { Prisma } from '@sbp/prisma';
+import * as bcrypt from 'bcrypt';
+import { UserService } from '../user/user.service';
+import { RegisterReq } from './req';
 
 @Injectable()
 export class AuthService {
@@ -12,11 +12,11 @@ export class AuthService {
     private users: UserService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterReq) {
     const passwordHash = await bcrypt.hash(dto.password, 12);
     const user = await this.users.create({
       email: dto.email,
-      name: dto.name,
+      name: dto.firstName + ' ' + dto.lastName,
       phone: dto.phone,
       countryCode: dto.countryCode,
       password: passwordHash,

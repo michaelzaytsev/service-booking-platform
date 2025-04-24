@@ -1,7 +1,7 @@
 // prettier-ignore
 import 'dotenv-flow/config';
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
@@ -14,6 +14,7 @@ async function bootstrap() {
 
   app.use(helmet());
   app.enableCors();
+  app.useGlobalPipes(new ValidationPipe());
 
   const logger = new Logger('Bootstrap');
   const port = process.env.API_PORT || 4000;
