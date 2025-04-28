@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
+import { User } from '@sbp/types';
 import { Auth } from './auth.decorator';
 import { AuthService } from './auth.service';
-import { JwtPayload } from './auth.types';
 import { LoginReq, RefreshReq, RegisterReq } from './req';
 import { TokensRes } from './res/tokens.res';
 
@@ -24,14 +24,14 @@ export class AuthController {
   @Post('refresh')
   @Auth()
   @HttpCode(HttpStatus.OK)
-  refresh(@Req() req: Request & { user: JwtPayload }, @Body() dto: RefreshReq): Promise<TokensRes> {
-    return this.authService.refresh(req.user.sub, dto.refreshToken);
+  refresh(@Req() req: Request & { user: User }, @Body() dto: RefreshReq): Promise<TokensRes> {
+    return this.authService.refresh(req.user.id, dto.refreshToken);
   }
 
   @Post('logout')
   @Auth()
   @HttpCode(HttpStatus.NO_CONTENT)
-  logout(@Req() req: Request & { user: JwtPayload }): Promise<void> {
-    return this.authService.logout(req.user.sub);
+  logout(@Req() req: Request & { user: User }): Promise<void> {
+    return this.authService.logout(req.user.id);
   }
 }

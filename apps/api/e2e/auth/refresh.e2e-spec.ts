@@ -1,4 +1,5 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
@@ -10,6 +11,7 @@ describe('/auth/refresh (POST)', () => {
   let app: INestApplication;
   let httpServer: any;
   let prisma: PrismaService;
+  let jwtService: JwtService;
   let loginRes: TokensRes;
 
   beforeAll(async () => {
@@ -23,6 +25,7 @@ describe('/auth/refresh (POST)', () => {
 
     httpServer = app.getHttpServer();
     prisma = app.get(PrismaService);
+    jwtService = app.get(JwtService);
   });
 
   afterAll(async () => {
@@ -71,10 +74,18 @@ describe('/auth/refresh (POST)', () => {
     });
 
     it('should return 403 if refresh token does not match stored one', async () => {
+      const invalidRefreshToken = await jwtService.signAsync(
+        { sub: 'invalid-user-id', role: 'invalid-role' },
+        {
+          secret: process.env.JWT_REFRESH_SECRET,
+          expiresIn: '7d',
+        },
+      );
+
       const res = await request(httpServer)
         .post('/auth/refresh')
         .set(authHeader(loginRes.accessToken))
-        .send({ refreshToken: 'invalid-token' });
+        .send({ refreshToken: invalidRefreshToken });
       expect(res.status).toBe(HttpStatus.FORBIDDEN);
     });
   });
@@ -98,7 +109,8 @@ describe('/auth/refresh (POST)', () => {
 
       const res = await request(httpServer)
         .post('/auth/refresh')
-        .send({ email: registerReqMock.email, password: registerReqMock.password });
+        .set(authHeader(loginRes.accessToken))
+        .send({ refreshToken: loginRes.refreshToken });
       const userAfter = await prisma.user.findUnique({ where: { email: registerReqMock.email } });
 
       expect(res.status).toBe(HttpStatus.OK);
